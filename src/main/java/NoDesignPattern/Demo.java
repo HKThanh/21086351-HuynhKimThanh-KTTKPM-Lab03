@@ -5,5 +5,8 @@ public class Demo {
         Employee employee = new Employee("John", "Doe", "Manager");
         System.out.println(employee);
         employee.handleRequest();
+
+        employee.setPosition("officer");
+        employee.handleRequest();
     }
 }
