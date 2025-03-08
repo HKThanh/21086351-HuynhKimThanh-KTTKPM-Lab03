@@ -3,15 +3,42 @@ package StatePattern;
 public class Employee {
     private String name;
     private String department;
-    private String position;
+    private State positionState;
 
     public Employee() {
     }
 
-    public Employee(String name, String department, String position) {
+    public Employee(String name, String department, State positionState) {
         this.name = name;
         this.department = department;
-        this.position = position;
+        this.positionState = positionState;
+    }
+
+    public void handleRequest() {
+        positionState.handleRequest();
+    }
+
+    public void promote() {
+        if (positionState instanceof ManagerState) {
+            System.out.println("Can not promote from manager.");
+        } else if (positionState instanceof OfficerState) {
+            System.out.println("Employee is promoted to leader.");
+            positionState = new LeaderState();
+        } else if (positionState instanceof ProducerState) {
+            System.out.println("Employee is promoted to officer.");
+            positionState = new OfficerState();
+        } else if (positionState instanceof LeaderState) {
+            System.out.println("Employee is promoted to manager.");
+            positionState = new ManagerState();
+        }
+    }
+
+    public void setPositionState(State positionState) {
+        this.positionState = positionState;
+    }
+
+    public State getPositionState() {
+        return positionState;
     }
 
     public String getName() {
@@ -30,20 +57,14 @@ public class Employee {
         this.department = department;
     }
 
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
     @Override
     public String toString() {
         return "Employee{" +
                 "name='" + name + '\'' +
                 ", department='" + department + '\'' +
-                ", position='" + position + '\'' +
+                ", positionState=" + positionState +
                 '}';
     }
+
+
 }
